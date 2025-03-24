@@ -2,8 +2,6 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response
 from ..models import models, schemas
 
-
-# Create a new resource
 def create(db: Session, resource: schemas.ResourceCreate):
     db_resource = models.Resource(
         item=resource.item,
@@ -14,18 +12,12 @@ def create(db: Session, resource: schemas.ResourceCreate):
     db.refresh(db_resource)
     return db_resource
 
-
-# Read all resources
 def read_all(db: Session):
     return db.query(models.Resource).all()
 
-
-# Read one resource by ID
 def read_one(db: Session, resource_id: int):
     return db.query(models.Resource).filter(models.Resource.id == resource_id).first()
 
-
-# Update a resource by ID
 def update(db: Session, resource_id: int, resource: schemas.ResourceUpdate):
     db_resource = db.query(models.Resource).filter(models.Resource.id == resource_id)
     if not db_resource.first():
@@ -36,8 +28,6 @@ def update(db: Session, resource_id: int, resource: schemas.ResourceUpdate):
     db.commit()
     return db_resource.first()
 
-
-# Delete a resource by ID
 def delete(db: Session, resource_id: int):
     db_resource = db.query(models.Resource).filter(models.Resource.id == resource_id)
     if not db_resource.first():
